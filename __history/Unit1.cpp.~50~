@@ -1,0 +1,103 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+TStreamReader *myFil = new TStreamReader("..\\..\\..\\conData\\convo1.txt");
+
+	AnsiString rLine;
+	AnsiString tLine;
+	ListBox1->Clear();
+	while (!myFil->EndOfStream)
+	{
+	rLine = myFil->ReadLine();
+    rLine += "\n";
+	tLine += "\n";
+	tLine += rLine;
+    tLine += "\n";
+	//ListBox1->Items->Add(rLine);
+	}
+
+	myFil->Close();
+
+	AnsiString msg1 = InputBox("Chat", "Type a message: ", " ");
+	AnsiString oneLine;
+
+	TStreamWriter *myFile = new TStreamWriter("..\\..\\..\\conData\\convo1.txt", true);
+
+	//rLine += "\n";
+
+	oneLine += rLine;
+	oneLine += "Response: ";
+	oneLine += msg1;
+	ListBox1->Clear();
+	ListBox1->Items->Add(oneLine);
+
+	myFile->WriteLine(oneLine);
+	myFile->Close();
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::checkClick(TObject *Sender)
+{
+	TStreamReader *myFil = new TStreamReader("..\\..\\..\\conData\\convo1.txt");
+
+	AnsiString rLine;
+	ListBox1->Clear();
+	while (!myFil->EndOfStream)
+	{
+
+	rLine = myFil->ReadLine();
+	ListBox1->Items->Add(rLine);
+	}
+
+	myFil->Close();
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FormShow(TObject *Sender)
+{
+
+	TStreamReader *myFil = new TStreamReader("..\\..\\..\\conData\\convo1.txt");
+
+	AnsiString rLine;
+	ListBox1->Clear();
+	while (!myFil->EndOfStream)
+	{
+
+	rLine = myFil->ReadLine();
+	ListBox1->Items->Add(rLine);
+	}
+
+	myFil->Close();
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::dButtClick(TObject *Sender)
+{
+	ListBox1->Clear();
+
+	AnsiString oneLine;
+
+	TStreamWriter *myFile = new TStreamWriter("..\\..\\..\\conData\\convo1.txt", false);
+
+	oneLine ="";
+	//ListBox1->Clear();
+	//ListBox1->Items->Add(oneLine);
+
+	myFile->WriteLine(oneLine);
+	myFile->Close();
+}
+//---------------------------------------------------------------------------
